@@ -4,8 +4,6 @@ from std_msgs.msg import Float64
 from sensors import GPS, GPSNoSignal
 from sensors.util import TimeoutException
 
-class GPSNoData(Exception): pass
-
 def get_gps_data(gps):
     try:
         return gps.poll_sensor()
@@ -22,8 +20,6 @@ def get_gps_data(gps):
     except IOError as e:
         rospy.logfatal_throttle_identical(120, "IO Error thrown by GPS node! Details: " + str(e))
 
-    raise GPSNoData()
-
 def gps_location_publisher():
     pos_lat = rospy.Publisher('GPS_position_lat', Float64, queue_size=5)
     pos_lon = rospy.Publisher('GPS_position_lon',Float64, queue_size=5)
@@ -32,14 +28,12 @@ def gps_location_publisher():
     rate = rospy.Rate(0.5) # 0.5hz
     gps = GPS()
     while not rospy.is_shutdown():
-        try:
-            data = get_gps_data(gps)
+        data = get_gps_data(gps)
+        if data is not None:
             pos_lon.publish(data.lon)
             pos_lat.publish(data.lat)
             vel_pub.publish(data.gSpeed)
             rospy.loginfo("Lon: {}, Lat: {}".format(data.lon, data.lat))
-        except GPSNoData as e:
-            pass
 
         rate.sleep()
 
