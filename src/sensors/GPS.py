@@ -50,7 +50,7 @@ class GPS:
         """Do not Use Outside of GPS
         Seperates Actually getting data for Unit testing"""
         # Init if not already
-        if self.gps is None or self.serial_port is None:
+        if not hasattr(self, 'gps'):
             self.init()
 
         return self.gps.geo_coords()
