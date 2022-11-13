@@ -3,7 +3,7 @@ import subprocess
 from datetime import datetime, timezone
 from sensors.util import TimeoutException, time_limit
 import os
-
+from ublox_gps import UbloxGps
 
 class GPSNoSignal(Exception): pass
 
@@ -31,7 +31,6 @@ class GPS:
         return cls.instance
 
     def init(self):
-        from ublox_gps import UbloxGps
         import serial
 
         # Connect GPS module to GPS UART

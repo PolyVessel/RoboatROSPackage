@@ -18,9 +18,9 @@ def get_gps_data(gps):
 
     # More serious errors, that would not be expected
     except ValueError as e:
-        rospy.logfatal_throttle_identical(120, "Value Error thrown by GPS node! Details: " + e)
+        rospy.logfatal_throttle_identical(120, "Value Error thrown by GPS node! Details: " + str(e))
     except IOError as e:
-        rospy.logfatal_throttle_identical(120, "IO Error thrown by GPS node! Details: " + e)
+        rospy.logfatal_throttle_identical(120, "IO Error thrown by GPS node! Details: " + str(e))
 
     raise GPSNoData()
 
@@ -40,7 +40,7 @@ def gps_location_publisher():
             rospy.loginfo("Lon: {}, Lat: {}".format(data.lon, data.lat))
         except GPSNoData as e:
             pass
-        
+
         rate.sleep()
 
 if __name__ == '__main__':
