@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import rospy
 from std_msgs.msg import Float64
-from sensors import GPS, GPSNoSignal
-from sensors.util import TimeoutException
+from drivers import GPS, GPSNoSignal
+from drivers.util import TimeoutException
 
 def get_gps_data(gps):
     try:

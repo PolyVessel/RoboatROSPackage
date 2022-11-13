@@ -1,7 +1,7 @@
 from re import sub
 import subprocess
 from datetime import datetime, timezone
-from sensors.util import TimeoutException, time_limit
+from drivers.util import TimeoutException, time_limit
 import os
 from ublox_gps import UbloxGps
 import serial
