@@ -2,7 +2,7 @@ import Adafruit_BBIO.GPIO as GPIO
 
 class Radio:
 
-    def __new__(cls, serial_port='/dev/ttyS0', m0_pin = 'GPIO2_22', m1_pin = 'GPIO2_24', aux_pin = 'GPIO2_23'):
+    def __new__(cls, serial_port='/dev/ttyS2', m0_pin = 'GPIO2_22', m1_pin = 'GPIO2_24', aux_pin = 'GPIO2_23'):
         import serial
 
         # Connect to Radio Via UART
