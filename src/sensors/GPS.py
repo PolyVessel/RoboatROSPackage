@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from sensors.util import TimeoutException, time_limit
 import os
 from ublox_gps import UbloxGps
+import serial
 
 class GPSNoSignal(Exception): pass
 
@@ -31,12 +32,11 @@ class GPS:
         return cls.instance
 
     def init(self):
-        import serial
-
-        # Connect GPS module to GPS UART
-        self.serial_port = serial.Serial('/dev/ttyS2', baudrate=9600, timeout=1, stopbits=serial.STOPBITS_ONE,
-                                         parity=serial.PARITY_NONE, bytesize=serial.EIGHTBITS)
-        self.gps = UbloxGps(self.serial_port)
+        with time_limit(self.GPS_TIMEOUT_SEC):
+            # Connect GPS module to GPS UART
+            self.serial_port = serial.Serial('/dev/ttyS2', baudrate=9600, timeout=1, stopbits=serial.STOPBITS_ONE,
+                                            parity=serial.PARITY_NONE, bytesize=serial.EIGHTBITS)
+            self.gps = UbloxGps(self.serial_port)
 
     def __del__(self):
         """Closes serial port when done"""
