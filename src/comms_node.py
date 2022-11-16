@@ -14,12 +14,13 @@ def configure_radio():
 def test_radio(radio):
     try:
         radio.ping_radio()
+        rospy.loginfo("Radio Passed Self-Test!")
     except RadioResponseBad as e:
         rospy.logfatal("Radio self-test failed! Reason: " + str(e))
 
 def comms_node():
     rospy.init_node('comms')
-    
+
     radio = configure_radio()
     test_radio(radio)
     rospy.spin()

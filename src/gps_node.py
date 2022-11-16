@@ -26,6 +26,7 @@ def gps_location_publisher():
     vel_pub = rospy.Publisher('GPS_velocity', Float64, queue_size=5)
     rospy.init_node('gps')
     rate = rospy.Rate(0.5) # 0.5hz
+    
     gps = GPS()
     rospy.loginfo("GPS Initialized")
     
