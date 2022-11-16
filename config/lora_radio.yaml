@@ -1,5 +1,5 @@
 lora_radio:
-  serial_port: /dev/ttyS2
+  serial_port: /dev/ttyS1
   m0_pin: GPIO2_22
   m1_pin: GPIO2_24
   aux_pin: GPIO2_23

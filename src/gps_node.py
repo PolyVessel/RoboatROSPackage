@@ -4,6 +4,11 @@ from std_msgs.msg import Float64
 from drivers import GPS, GPSNoSignal
 from drivers.util import TimeoutException
 
+def configure_gps():
+    serial_port = rospy.get_param('gps/serial_port')
+    timeout = rospy.get_param('gps/timeout')
+    return GPS(serial_port, timeout)
+
 def get_gps_data(gps):
     try:
         return gps.poll_sensor()
@@ -27,7 +32,8 @@ def gps_location_publisher():
     rospy.init_node('gps')
     rate = rospy.Rate(0.5) # 0.5hz
     
-    gps = GPS()
+    gps = configure_gps()
+
     rospy.loginfo("GPS Initialized")
     
     while not rospy.is_shutdown():

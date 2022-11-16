@@ -2,5 +2,6 @@
   <rosparam command="load" file="$(find roboat_pkg)/config/lora_radio.yaml" />
   <node name="comms" pkg="roboat_pkg" type="comms_node.py" />
 
+  <rosparam command="load" file="$(find roboat_pkg)/config/gps.yaml" />
   <node name="gps" pkg="roboat_pkg" type="gps_node.py" />
 </launch>

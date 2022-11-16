@@ -23,18 +23,18 @@ class GPSData():
         self.headAcc = headAcc
 
 class GPS:
-    GPS_TIMEOUT_SEC = 5
-
     # Singleton Pattern (we only have 1 GPS module)
     def __new__(cls):
         if not hasattr(cls, 'instance'):
             cls.instance = super(GPS, cls).__new__(cls)
         return cls.instance
 
-    def init(self):
+    def __init__(self, serial_port_name, timeout):
+        self.GPS_TIMEOUT_SEC = timeout
+
         with time_limit(self.GPS_TIMEOUT_SEC):
             # Connect GPS module to GPS UART
-            self.serial_port = serial.Serial('/dev/ttyS2', baudrate=9600, timeout=1, stopbits=serial.STOPBITS_ONE,
+            self.serial_port = serial.Serial(serial_port_name, baudrate=9600, timeout=self.GPS_TIMEOUT_SEC, stopbits=serial.STOPBITS_ONE,
                                             parity=serial.PARITY_NONE, bytesize=serial.EIGHTBITS)
             self.gps = UbloxGps(self.serial_port)
 
