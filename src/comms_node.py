@@ -16,3 +16,16 @@ def test_radio(radio):
         radio.ping_radio()
     except RadioResponseBad as e:
         rospy.logfatal("Radio self-test failed! Reason: " + str(e))
+
+def comms_node():
+    rospy.init_node('comms')
+    
+    radio = configure_radio()
+    test_radio(radio)
+    rospy.spin()
+
+if __name__ == "__main__":
+    try:
+        comms_node()
+    except rospy.ROSInterruptException:
+        pass
