@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from drivers.radio import Radio, RadioResponseBad
 import rospy
 
