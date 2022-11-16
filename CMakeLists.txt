@@ -207,3 +207,7 @@ catkin_install_python(PROGRAMS src/gps_node.py
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+if (CATKIN_ENABLE_TESTING)
+  find_package(roslaunch REQUIRED)
+  roslaunch_add_file_check(launch)
+endif()

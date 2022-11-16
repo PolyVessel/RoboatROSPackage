@@ -1,0 +1,3 @@
+<launch>
+  <node name="gps" pkg="roboat_pkg" type="gps_node.py" />
+</launch>
