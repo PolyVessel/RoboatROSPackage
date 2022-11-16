@@ -1,9 +1,11 @@
 import Adafruit_BBIO.GPIO as GPIO
 import serial
 
+class RadioResponseBad(Exception): pass
+
 class Radio:
 
-    def __init__(cls, serial_port='/dev/ttyS2', m0_pin = 'GPIO2_22', m1_pin = 'GPIO2_24', aux_pin = 'GPIO2_23'):
+    def __init__(cls, serial_port, m0_pin, m1_pin, aux_pin):
 
         # Connect to Radio Via UART
         cls.serial_port = serial.Serial(serial_port, baudrate=9600, timeout=3)
@@ -61,7 +63,7 @@ class Radio:
         GPIO.output(self.m0_pin, GPIO.LOW)
         GPIO.output(self.m1_pin, GPIO.HIGH)
 
-    def _ping_radio(self):
+    def ping_radio(self):
         """Requests version number of radio
         Will return a byte-string tuple, 
             ('\x00','\x00') - Indicates error
@@ -75,16 +77,13 @@ class Radio:
         # receieved correct amount of data
         
         if (not radio_resp[0] == b'\xC3'):
-            print("ERROR! Ping radio returned: " + str(radio_resp))
-            return ('\x00', '\x00')
+            raise RadioResponseBad("First byte is not 0xC3! Resp: " + str(radio_resp))
         
         if (not radio_resp[1] == b'\x32'):
-            print("ERROR! Ping radio returned: " + str(radio_resp))
-            return ('\x00', '\x00')
+            raise RadioResponseBad("Second byte is not 0x32! Resp: " + str(radio_resp))
         
         if (not len(radio_resp) == 4):
-            print("ERROR! Ping radio returned: " + str(radio_resp))
-            return ('\x00', '\x00')
+            raise RadioResponseBad("Radio Respone is not 4 bytes long! Resp: " + str(radio_resp))
         
         return (radio_resp[3],radio_resp[4]) 
         

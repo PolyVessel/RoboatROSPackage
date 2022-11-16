@@ -1,3 +1,4 @@
 <launch>
+  <rosparam command="load" file="$(find roboat_pkg)/config/my_params.yaml" />
   <node name="gps" pkg="roboat_pkg" type="gps_node.py" />
 </launch>

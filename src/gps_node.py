@@ -27,6 +27,8 @@ def gps_location_publisher():
     rospy.init_node('talker', anonymous=True)
     rate = rospy.Rate(0.5) # 0.5hz
     gps = GPS()
+    rospy.loginfo("GPS Initialized")
+    
     while not rospy.is_shutdown():
         data = get_gps_data(gps)
         if data is not None:
