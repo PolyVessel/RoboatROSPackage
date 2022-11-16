@@ -23,12 +23,6 @@ class GPSData():
         self.headAcc = headAcc
 
 class GPS:
-    # Singleton Pattern (we only have 1 GPS module)
-    def __new__(cls):
-        if not hasattr(cls, 'instance'):
-            cls.instance = super(GPS, cls).__new__(cls)
-        return cls.instance
-
     def __init__(self, serial_port_name, timeout):
         self.GPS_TIMEOUT_SEC = timeout
 
@@ -79,7 +73,7 @@ class GPS:
         """
 
         with time_limit(self.GPS_TIMEOUT_SEC):
-            gps_data = GPS().priv_get_GPS_data()
+            gps_data = self.priv_get_GPS_data()
 
             current_date_time = datetime(gps_data.year, gps_data.month, gps_data.day,
                                         hour=gps_data.hour, minute=gps_data.min, second=gps_data.sec,

@@ -13,8 +13,8 @@ def configure_radio():
 
 def test_radio(radio):
     try:
-        radio.ping_radio()
-        rospy.loginfo("Radio Passed Self-Test!")
+        ping_data = radio.ping_radio()
+        rospy.loginfo("Radio Passed Self-Test! Returning Data: " + str(ping_data))
     except RadioResponseBad as e:
         rospy.logfatal("Radio self-test failed! Reason: " + str(e))
 

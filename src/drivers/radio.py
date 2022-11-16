@@ -76,16 +76,16 @@ class Radio:
         # Asserts that radio is a 433MHz model and 
         # receieved correct amount of data
         
-        if (not radio_resp[0] == b'\xC3'):
+        if (not radio_resp[0] == 0xc3):
             raise RadioResponseBad("First byte is not 0xC3! Resp: " + str(radio_resp))
         
-        if (not radio_resp[1] == b'\x32'):
+        if (not radio_resp[1] == 0x32):
             raise RadioResponseBad("Second byte is not 0x32! Resp: " + str(radio_resp))
         
         if (not len(radio_resp) == 4):
             raise RadioResponseBad("Radio Respone is not 4 bytes long! Resp: " + str(radio_resp))
         
-        return (radio_resp[3],radio_resp[4]) 
+        return (radio_resp[2],radio_resp[3]) 
         
 
     
