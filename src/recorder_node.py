@@ -25,4 +25,7 @@ class Recorder:
    
 
 if __name__ == '__main__':
-    Recorder()
+    try:
+        Recorder()
+    except rospy.ROSInterruptException:
+        pass
