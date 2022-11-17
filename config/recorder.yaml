@@ -1,0 +1,3 @@
+recorder:
+  csv_encoding: utf-8
+  gps_csv_path: /home/beagle/gps.csv
