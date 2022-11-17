@@ -2,6 +2,7 @@
 
 from drivers.radio import Radio, RadioResponseBad
 import rospy
+from std_msgs.msg import Bool
 
 def configure_radio():
     serial_port = rospy.get_param('lora_radio/serial_port')
@@ -17,11 +18,13 @@ def test_radio(radio, e_stop_pub):
         rospy.loginfo("Radio Passed Self-Test! Returning Data: " + str(ping_data))
     except RadioResponseBad as e:
         rospy.logfatal("Radio self-test failed! Reason: " + str(e))
-        e_stop_pub.publish(True)
+        e_stop_state = Bool()
+        e_stop_state.data = True
+        e_stop_pub.publish(e_stop_state)
 
 
 def comms_node():
-    e_stop_pub = rospy.Publisher('e_stop', bool, queue_size=1)
+    e_stop_pub = rospy.Publisher('e_stop', Bool, queue_size=1)
     rospy.init_node('comms')
     
     radio = configure_radio()

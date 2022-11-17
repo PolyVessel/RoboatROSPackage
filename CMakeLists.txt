@@ -50,6 +50,7 @@ find_package(catkin REQUIRED COMPONENTS
  add_message_files(
    FILES
    e_stop.msg
+   GPSInfo.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -192,7 +193,7 @@ include_directories(
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
 
-catkin_install_python(PROGRAMS src/gps_node.py
+catkin_install_python(PROGRAMS src/gps_node.py src/comms_node.py src/recorder_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import rospy
-from std_msgs.msg import Float64
+from roboat_pkg.msg import GPSInfo
+
 from drivers import GPS, GPSNoSignal
 from drivers.util import TimeoutException
 
@@ -26,9 +27,7 @@ def get_gps_data(gps):
         rospy.logfatal_throttle_identical(120, "IO Error thrown by GPS node! Details: " + str(e))
 
 def gps_location_publisher():
-    pos_lat = rospy.Publisher('GPS_position_lat', Float64, queue_size=5)
-    pos_lon = rospy.Publisher('GPS_position_lon',Float64, queue_size=5)
-    vel_pub = rospy.Publisher('GPS_velocity', Float64, queue_size=5)
+    gps_pub = rospy.Publisher('gps_info', GPSInfo, queue_size=5)
     rospy.init_node('gps')
     rate = rospy.Rate(0.5) # 0.5hz
     
@@ -39,11 +38,14 @@ def gps_location_publisher():
     while not rospy.is_shutdown():
         data = get_gps_data(gps)
         if data is not None:
-            pos_lon.publish(data.lon)
-            pos_lat.publish(data.lat)
-            vel_pub.publish(data.gSpeed)
-            rospy.loginfo("Lon: {}, Lat: {}".format(data.lon, data.lat))
+            gps_info = GPSInfo()
+            gps_info.lon = data.lon
+            gps_info.lat = data.lat
+            gps_info.groundSpeed = data.gSpeed
+            gps_info.measurementTime = rospy.Time.now()
 
+            gps_pub.publish(gps_info)
+           
         rate.sleep()
 
 if __name__ == '__main__':
