@@ -6,7 +6,6 @@ class RadioResponseBad(Exception): pass
 class Radio:
 
     def __init__(cls, serial_port, m0_pin, m1_pin, aux_pin):
-
         # Connect to Radio Via UART
         cls.serial_port = serial.Serial(serial_port, baudrate=9600, timeout=3)
         
@@ -76,20 +75,27 @@ class Radio:
         # Asserts that radio is a 433MHz model and 
         # receieved correct amount of data
         
-        if (not radio_resp[0] == b'\xC3'):
+        if (not radio_resp[0] == 0xc3):
             raise RadioResponseBad("First byte is not 0xC3! Resp: " + str(radio_resp))
         
-        if (not radio_resp[1] == b'\x32'):
+        if (not radio_resp[1] == 0x32):
             raise RadioResponseBad("Second byte is not 0x32! Resp: " + str(radio_resp))
         
         if (not len(radio_resp) == 4):
             raise RadioResponseBad("Radio Respone is not 4 bytes long! Resp: " + str(radio_resp))
         
-        return (radio_resp[3],radio_resp[4]) 
+        return (radio_resp[2],radio_resp[3]) 
         
 
-    
+    def (self):
+       return self.serial_port.in_waiting
 
     def _block_until_module_free(self):
         while not GPIO.input(self.aux_pin):
             pass # Block until Aux is 1
+    
+    def transmit(data: bytes):
+        pass
+    
+    
+    def bytes_waiting()
