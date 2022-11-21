@@ -1,0 +1,5 @@
+gps:
+  timeout: 5 # in seconds
+  serial_port: /dev/ttyS2
+
+  poll_rate: 0.5 # in Hz
