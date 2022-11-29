@@ -70,13 +70,8 @@ class GPS:
            headAcc -> Accuracy of Heading in deg
         """
 
-<<<<<<< HEAD
         with time_limit(self.timeout):
             gps_data = self.gps.geo_coords()
-=======
-        with time_limit(self.GPS_TIMEOUT_SEC):
-            gps_data = self.priv_get_GPS_data()
->>>>>>> b36c17e12a71d58697668a6a19ab8b8f573f3d26
 
             current_date_time = datetime(gps_data.year, gps_data.month, gps_data.day,
                                         hour=gps_data.hour, minute=gps_data.min, second=gps_data.sec,

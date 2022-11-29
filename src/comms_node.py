@@ -26,10 +26,7 @@ def test_radio(radio, e_stop_pub):
 
 def comms_node():
     e_stop_pub = rospy.Publisher('e_stop', Bool, queue_size=1)
-<<<<<<< HEAD
     telemetry_listener = rospy.Subscriber('telemetry_logs', telemetry_msg)
-=======
->>>>>>> b36c17e12a71d58697668a6a19ab8b8f573f3d26
     rospy.init_node('comms')
     
     radio = configure_radio()
