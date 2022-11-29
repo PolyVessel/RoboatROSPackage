@@ -23,10 +23,13 @@ class Packet:
         b.append(payload)
 
         self.bytes = b"".join(b)
+    
+    def get_bytes(self):
+        return self.bytes
         
 
 # Returns a list of packets
-def multi_packetizer(payload : bytes, starting_packet_id : int) -> list:
+def multi_packetizer(payload : bytes, starting_packet_id : int) -> list[Packet]:
     packets = []
     packet_id = starting_packet_id
     while len(payload) > 0:
@@ -60,7 +63,7 @@ def de_packetizer(packet : bytes) -> tuple[int, bytes]:
         
 if __name__ == "__main__":
     p = Packet(5000000, b'It was the best of times, it was the worst of times')
-    print(p.bytes)
+    print(p.get_bytes())
     print(de_packetizer(p.bytes))
 
 
