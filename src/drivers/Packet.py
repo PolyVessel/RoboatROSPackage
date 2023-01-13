@@ -11,20 +11,22 @@ class PacketizerException(Exception):
 
 class Packet:
     def __init__(self, packet_id : int, payload : bytes):
-        if (len(payload) > MAX_PAYLOAD):
+        self.packet_id = packet_id
+        self.payload = payload
+    
+    def get_bytes(self):
+        if (len(self.payload) > MAX_PAYLOAD):
             raise PacketizerException("Payload is larger than max size. Use multi_packetizer() instead")
-        id_bytes = packet_id.to_bytes(4, 'little')
-        payload_length = len(payload).to_bytes(2, 'little')
+        id_bytes = self.packet_id.to_bytes(4, 'little')
+        payload_length = len(self.payload).to_bytes(2, 'little')
         b = []
         b.append(b'\x69\x69')
         b.append(id_bytes)
         b.append(payload_length)
-        b.append(hashlib.sha256(id_bytes + payload).digest()[:4])
-        b.append(payload)
+        b.append(hashlib.sha256(id_bytes + self.payload).digest()[:4])
+        b.append(self.payload)
 
         self.bytes = b"".join(b)
-    
-    def get_bytes(self):
         return self.bytes
         
 
@@ -43,26 +45,15 @@ def multi_packetizer(payload : bytes, starting_packet_id : int) -> list[Packet]:
     return packets
 
 
-def de_packetizer(packet : bytes) -> tuple[int, bytes]:
-    if len(packet) < OVERHEAD:
-        raise PacketizerException("Packet is too small to be valid")
-    if packet[:2] != b'\x69\x69':
-        raise PacketizerException("Packet does not start with 0x6969")
-    packet_id = int.from_bytes(packet[2:6], 'little')
-    print(packet_id)
-    payload_length = int.from_bytes(packet[6:8], 'little')
-    if len(packet) != OVERHEAD + payload_length:
-        raise PacketizerException("Packet length does not match payload length")
-    payload = packet[OVERHEAD:]
-    if hashlib.sha256(packet[2:6] + payload).digest()[:4] != packet[8:12]:
-        raise PacketizerException("Packet hash does not match payload hash")
-    return (packet_id, payload)
+
+
 
 
 
         
 if __name__ == "__main__":
     p = Packet(5000000, b'It was the best of times, it was the worst of times')
+    print(packet_bytes(p.get_bytes()))
     print(p.get_bytes())
     print(de_packetizer(p.bytes))
 

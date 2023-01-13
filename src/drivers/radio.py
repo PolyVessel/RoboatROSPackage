@@ -84,11 +84,11 @@ class Radio:
         if (not len(radio_resp) == 4):
             raise RadioResponseBad("Radio Respone is not 4 bytes long! Resp: " + str(radio_resp))
         
-        return (radio_resp[2],radio_resp[3]) 
-        
-
-    def (self):
-       return self.serial_port.in_waiting
+        return (radio_resp[2],radio_resp[3])
+    
+    def receive(self):
+        serial_resp = self.serial_port.read(serial.inWaiting())
+        return serial_resp
 
     def _block_until_module_free(self):
         while not GPIO.input(self.aux_pin):
@@ -97,5 +97,5 @@ class Radio:
     def transmit(data: bytes):
         pass
     
-    
-    def bytes_waiting()
+    def bytes_waiting():
+        return serial.inWaiting()
