@@ -11,13 +11,22 @@ import sys
 def comms_node():
     rospy.init_node('lora_comms')
     radio = configure_radio()
+
+    rospy.loginfo("Radio Configured")
     poll_rate = rospy.get_param("lora_radio/poll_rate")
 
+    rospy.loginfo("Got poll rate")
     e_stop_pub = rospy.Publisher('e_stop', Bool, queue_size=1)
+
+    
+    rospy.loginfo("Got estop publisher")
         
     rate = rospy.Rate(poll_rate)
     if not test_radio(radio, e_stop_pub):
         sys.exit("Self test failed")
+
+    
+    rospy.loginfo("Past Self test")
 
     depacketizer = Depacketizer()
     while not rospy.is_shutdown():
@@ -37,6 +46,8 @@ def configure_radio():
     return Radio(serial_port, m0_pin, m1_pin, aux_pin)
 
 def test_radio(radio, e_stop_pub):
+    
+    rospy.loginfo("Start Self-test")
     try:
         ping_data = radio.ping_radio()
         rospy.loginfo("Radio Passed Self-Test! Returning Data: " + str(ping_data))
