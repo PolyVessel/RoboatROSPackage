@@ -15,17 +15,14 @@ class Radio:
         while True:
             num += 1
             rospy.loginfo(f"Lora Radio GPIO init try #{num}")
+           
             try:
                 GPIO.setup(m0_pin, GPIO.OUT)
                 self.m0_pin = m0_pin
 
-
-                rospy.loginfo(f"Setup M1 on {m1_pin}")
                 GPIO.setup(m1_pin, GPIO.OUT)
                 self.m1_pin = m1_pin
 
-
-                rospy.loginfo(f"Setup aux on {aux_pin}")
                 GPIO.setup(aux_pin, GPIO.IN)
                 self.aux_pin = aux_pin
 
@@ -33,6 +30,9 @@ class Radio:
                 continue
 
             break
+
+        
+        rospy.loginfo(f"Sucessfully initialized all GPIO pins for radio!")
         
     def __del__(self):
         """Closes serial port when done"""
