@@ -10,7 +10,7 @@ from roboat_pkg.msg import telemetry as telemetry_msg
 def comms_node():
     rospy.init_node('lora_comms')
     radio = configure_radio()
-    poll_rate = rospy.get_param("radio/poll_rate")
+    poll_rate = rospy.get_param("lora_radio/poll_rate")
     rate = rospy.Rate(poll_rate)
     test_radio(radio)
     depacketizer = Depacketizer()
