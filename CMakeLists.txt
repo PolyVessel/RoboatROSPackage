@@ -190,7 +190,7 @@ install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
 )
 
-catkin_install_python(PROGRAMS src/gps_node.py src/comms_node.py src/recorder_node.py
+catkin_install_python(PROGRAMS src/gps_node.py src/lora_comms_node.py src/recorder_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -7,8 +7,8 @@ import rospy
 from std_msgs.msg import Bool
 from roboat_pkg.msg import telemetry as telemetry_msg
 
-def RX_Node():
-    rospy.init_node('RX')
+def comms_node():
+    rospy.init_node('lora_comms')
     radio = configure_radio()
     poll_rate = rospy.get_param("radio/poll_rate")
     rate = rospy.Rate(poll_rate)
@@ -40,20 +40,8 @@ def test_radio(radio, e_stop_pub):
         e_stop_state.data = True
         e_stop_pub.publish(e_stop_state)
 
-
-def comms_node():
-    e_stop_pub = rospy.Publisher('e_stop', Bool, queue_size=1)
-    telemetry_listener = rospy.Subscriber('telemetry_logs', telemetry_msg)
-    rospy.init_node('comms')
-    
-    radio = configure_radio()
-    test_radio(radio, e_stop_pub)
-    rospy.spin()
-
-
-
 if __name__ == "__main__":
     try:
-        RX_Node()
+        comms_node()
     except rospy.ROSInterruptException:
         pass
