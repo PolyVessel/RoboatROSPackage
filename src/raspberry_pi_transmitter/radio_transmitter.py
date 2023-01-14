@@ -1,7 +1,7 @@
 
 from time import sleep
-from drivers.radio import Radio
-from drivers.Packet import Packet
+from radio import Radio
+from Packet import Packet
 def main():
     radio = Radio('/dev/ttyUSB0', 17, 27, 22)
     while True:
