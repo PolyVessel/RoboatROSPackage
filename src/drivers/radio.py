@@ -4,6 +4,8 @@ import rospy
 
 class RadioResponseBad(Exception): pass
 
+TRANSMIT_CH = 0
+
 class Radio:
 
     def __init__(self, serial_port, m0_pin, m1_pin, aux_pin):
@@ -124,8 +126,13 @@ class Radio:
         while not GPIO.input(self.aux_pin):
             pass # Block until Aux is 1
     
-    def transmit(data: bytes):
-        pass
-    
+    def transmit(self, data: bytes):
+        if len(bytes) > 512:
+            raise ValueError("Data too long to transmit!")
+        self._wake_up_mode()
+        buf = bytearray('b\xff' * 2)
+        buf.extend(data)
+        self.serial_port.write(buf)
+
     def bytes_waiting():
         return serial.inWaiting()
