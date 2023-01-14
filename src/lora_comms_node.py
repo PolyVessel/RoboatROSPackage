@@ -17,7 +17,8 @@ def comms_node():
         
     rate = rospy.Rate(poll_rate)
     if not test_radio(radio, e_stop_pub):
-        sys.exit("Cant init radio")
+        sys.exit("Self test failed")
+
     depacketizer = Depacketizer()
     while not rospy.is_shutdown():
         depacketizer.write(radio.receive())
