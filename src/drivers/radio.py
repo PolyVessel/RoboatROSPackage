@@ -89,8 +89,9 @@ class Radio:
         """
 
         # Requires Sleep mode in order to ping radio
-        with time_limit(3):
-            self._sleep_mode()
+        # (For now don't deal with changing modes)
+        # with time_limit(3):
+        #     self._sleep_mode()
 
 
         self.serial_port.write(b'\xC3\xC3\xC3')
