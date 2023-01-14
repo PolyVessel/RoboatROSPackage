@@ -1,5 +1,6 @@
 import Adafruit_BBIO.GPIO as GPIO
 import serial
+import rospy
 
 class RadioResponseBad(Exception): pass
 
@@ -9,12 +10,17 @@ class Radio:
         # Connect to Radio Via UART
         self.serial_port = serial.Serial(serial_port, baudrate=9600, timeout=3)
         
+        rospy.loginfo(f"Setup M0 on {m0_pin}")
         GPIO.setup(m0_pin, GPIO.OUT)
         self.m0_pin = m0_pin
 
+
+        rospy.loginfo(f"Setup M1 on {m1_pin}")
         GPIO.setup(m1_pin, GPIO.OUT)
         self.m1_pin = m1_pin
 
+
+        rospy.loginfo(f"Setup aux on {aux_pin}")
         GPIO.setup(aux_pin, GPIO.IN)
         self.aux_pin = aux_pin
         
