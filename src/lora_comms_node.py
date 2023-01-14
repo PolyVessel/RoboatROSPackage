@@ -15,7 +15,8 @@ def comms_node():
     e_stop_pub = rospy.Publisher('e_stop', Bool, queue_size=1)
         
     rate = rospy.Rate(poll_rate)
-    test_radio(radio, e_stop_pub)
+    if not test_radio(radio, e_stop_pub):
+        rospy.spin()
     depacketizer = Depacketizer()
     while not rospy.is_shutdown():
         depacketizer.write(radio.receive())
@@ -37,11 +38,13 @@ def test_radio(radio, e_stop_pub):
     try:
         ping_data = radio.ping_radio()
         rospy.loginfo("Radio Passed Self-Test! Returning Data: " + str(ping_data))
+        return True
     except RadioResponseBad as e:
         rospy.logfatal("Radio self-test failed! Reason: " + str(e))
         e_stop_state = Bool()
         e_stop_state.data = True
         e_stop_pub.publish(e_stop_state)
+        return False
 
 if __name__ == "__main__":
     try:

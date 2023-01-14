@@ -85,6 +85,10 @@ class Radio:
             Otherwise, first value is Version number and 
             second value is other module features.
         """
+
+        # Requires Sleep mode in order to ping radio
+        self._sleep_mode()
+
         self.serial_port.write(b'\xC3\xC3\xC3')
         radio_resp = self.serial_port.read(4)
 
@@ -108,7 +112,7 @@ class Radio:
         return (radio_resp[2],radio_resp[3])
     
     def receive(self):
-        serial_resp = self.serial_port.read(serial.inWaiting())
+        serial_resp = self.serial_port.read(serial.inWaiting)
         return serial_resp
 
     def _block_until_module_free(self):
