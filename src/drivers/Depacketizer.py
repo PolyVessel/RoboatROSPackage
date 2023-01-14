@@ -1,5 +1,5 @@
 import collections
-from Packet import OVERHEAD, MAX_PAYLOAD, PacketizerException, Packet
+from drivers.Packet import OVERHEAD, MAX_PAYLOAD, PacketizerException, Packet
 BUFFER_LEN = 2048
 class Depacketizer:
     def __init__(self):
