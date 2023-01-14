@@ -6,6 +6,7 @@ from drivers.Packet import Packet
 import rospy
 from std_msgs.msg import Bool
 from roboat_pkg.msg import telemetry as telemetry_msg
+import sys
 
 def comms_node():
     rospy.init_node('lora_comms')
@@ -16,7 +17,7 @@ def comms_node():
         
     rate = rospy.Rate(poll_rate)
     if not test_radio(radio, e_stop_pub):
-        rospy.spin()
+        sys.exit("Cant init radio")
     depacketizer = Depacketizer()
     while not rospy.is_shutdown():
         depacketizer.write(radio.receive())
