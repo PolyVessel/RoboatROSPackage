@@ -88,6 +88,8 @@ class Radio:
         self.serial_port.write(b'\xC3\xC3\xC3')
         radio_resp = self.serial_port.read(4)
 
+        rospy.loginfo(f"Radio Ping response {radio_resp} with length {len(radio_resp)}")
+
         # Asserts that radio is a 433MHz model and 
         # receieved correct amount of data
         
