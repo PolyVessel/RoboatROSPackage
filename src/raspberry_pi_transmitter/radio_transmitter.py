@@ -1,3 +1,6 @@
+import sys
+print(sys.path)
+sys.path.append('../drivers')
 
 from time import sleep
 from radio import Radio
