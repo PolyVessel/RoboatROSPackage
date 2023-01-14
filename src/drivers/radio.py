@@ -84,13 +84,17 @@ class Radio:
             ('\x00','\x00') - Indicates error
             Otherwise, first value is Version number and 
             second value is other module features.
+
+        Can raise TimeoutException()
         """
 
         # Requires Sleep mode in order to ping radio
-        self._sleep_mode()
+        with time_limit(3):
+            self._sleep_mode()
+
 
         self.serial_port.write(b'\xC3\xC3\xC3')
-        radio_resp = self.serial_port.read(4, timeout=10)
+        radio_resp = self.serial_port.read(4)
 
         if len(radio_resp) != 4:
             raise RadioResponseBad(f"Did not return correct data length! Response: {radio_resp}")
