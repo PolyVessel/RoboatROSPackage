@@ -3,6 +3,8 @@
 # https://docs.google.com/document/d/e/2PACX-1vRbm1WKCdh5X4Ji4nGYI22LL2Y-oLjkN6hBZEl6U7xsOcApdzz1ynh-aBq82YZGA1eBMbsIvnchxTQM/pub
 
 import hashlib
+from typing import List
+
 MAX_PAYLOAD = 500
 OVERHEAD = 12
 
@@ -31,7 +33,7 @@ class Packet:
         
 
 # Returns a list of packets
-def multi_packetizer(payload : bytes, starting_packet_id : int) -> list[Packet]:
+def multi_packetizer(payload : bytes, starting_packet_id : int) -> List[Packet]:
     packets = []
     packet_id = starting_packet_id
     while len(payload) > 0:

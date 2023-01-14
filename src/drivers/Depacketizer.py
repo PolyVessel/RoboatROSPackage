@@ -53,7 +53,7 @@ class Depacketizer:
 
 
     
-    def de_packetizer(self, packet : bytes) -> tuple[int, bytes]:
+    def de_packetizer(self, packet : bytes) -> Packet:
         if len(packet) <= OVERHEAD:
             raise PacketizerException("Packet is too small to be valid")
         if packet[:2] != b'\x69\x69':
