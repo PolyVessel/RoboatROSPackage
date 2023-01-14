@@ -90,7 +90,7 @@ class Radio:
         self._sleep_mode()
 
         self.serial_port.write(b'\xC3\xC3\xC3')
-        radio_resp = self.serial_port.read(4)
+        radio_resp = self.serial_port.read(4, timeout=10)
 
         if len(radio_resp) != 4:
             raise RadioResponseBad(f"Did not return correct data length! Response: {radio_resp}")
