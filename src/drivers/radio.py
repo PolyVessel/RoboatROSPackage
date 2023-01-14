@@ -5,18 +5,18 @@ class RadioResponseBad(Exception): pass
 
 class Radio:
 
-    def __init__(cls, serial_port, m0_pin, m1_pin, aux_pin):
+    def __init__(self, serial_port, m0_pin, m1_pin, aux_pin):
         # Connect to Radio Via UART
-        cls.serial_port = serial.Serial(serial_port, baudrate=9600, timeout=3)
+        self.serial_port = serial.Serial(serial_port, baudrate=9600, timeout=3)
         
         GPIO.setup(m0_pin, GPIO.OUT)
-        cls.m0_pin = m0_pin
+        self.m0_pin = m0_pin
 
         GPIO.setup(m1_pin, GPIO.OUT)
-        cls.m1_pin = m1_pin
+        self.m1_pin = m1_pin
 
         GPIO.setup(aux_pin, GPIO.IN)
-        cls.aux_pin = aux_pin
+        self.aux_pin = aux_pin
         
     def __del__(self):
         """Closes serial port when done"""
