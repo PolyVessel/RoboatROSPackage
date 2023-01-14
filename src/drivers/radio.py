@@ -117,7 +117,7 @@ class Radio:
         return (radio_resp[2],radio_resp[3])
     
     def receive(self):
-        serial_resp = self.serial_port.read(serial.inWaiting)
+        serial_resp = self.serial_port.read(serial.in_waiting)
         return serial_resp
 
     def _block_until_module_free(self):
