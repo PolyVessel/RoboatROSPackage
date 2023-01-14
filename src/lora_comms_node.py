@@ -15,9 +15,9 @@ def comms_node():
     test_radio(radio)
     depacketizer = Depacketizer()
     while not rospy.is_shutdown():
-        depacketizer.write(Radio.receive())
-        depacketizer.read_packets_from_buffer()
-        for packet in depacketizer.packets:
+        depacketizer.write(radio.receive())
+        valid_packets = depacketizer.read_packets_from_buffer()
+        for packet in valid_packets:
             rospy.loginfo(packet)
         rate.sleep()
 
