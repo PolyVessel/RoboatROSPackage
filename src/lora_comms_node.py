@@ -11,8 +11,11 @@ def comms_node():
     rospy.init_node('lora_comms')
     radio = configure_radio()
     poll_rate = rospy.get_param("lora_radio/poll_rate")
+
+    e_stop_pub = rospy.Publisher('e_stop', Bool, queue_size=1)
+        
     rate = rospy.Rate(poll_rate)
-    test_radio(radio)
+    test_radio(radio, e_stop_pub)
     depacketizer = Depacketizer()
     while not rospy.is_shutdown():
         depacketizer.write(radio.receive())
