@@ -26,7 +26,6 @@ class Depacketizer:
         if self.buffer[test_index + 1] != b'\x69':
             # if the next byte is not 0x69, we know that this is not a hit, so we remove the first bytes and try again.
             self.buffer.pop(test_index)
-            self.buffer.pop(test_index)
             # however, we still need to check if there are other packets in the buffer.
             return self.read_packets_from_buffer()
         # if we get here, we think that we have a packet starting at test_index.
@@ -37,7 +36,7 @@ class Depacketizer:
             return []
         if packet_length == -1:
             # the packet is invalid, remove it from the buffer and check for more packets.
-            self.buffer = + self.buffer[test_index + OVERHEAD:]
+            self.buffer = self.buffer[test_index + OVERHEAD:]
             return self.read_packets_from_buffer()
         # if we get here, we have a complete packet, with an unverified checksum.
         try:
@@ -54,7 +53,7 @@ class Depacketizer:
 
 
     
-    def de_packetizer(packet : bytes) -> tuple[int, bytes]:
+    def de_packetizer(self, packet : bytes) -> tuple[int, bytes]:
         if len(packet) <= OVERHEAD:
             raise PacketizerException("Packet is too small to be valid")
         if packet[:2] != b'\x69\x69':
@@ -69,7 +68,7 @@ class Depacketizer:
             raise PacketizerException("Packet hash does not match payload hash")
         return Packet(packet_id, payload)
 
-    def packet_bytes(packet : bytes) -> int:
+    def packet_bytes(self, packet : bytes) -> int:
         if len(packet) < OVERHEAD:
             return 0
         payload_length = int.from_bytes(packet[6:8], 'little')
