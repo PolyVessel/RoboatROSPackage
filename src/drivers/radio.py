@@ -6,7 +6,7 @@ except ImportError:
     import RPi.GPIO as GPIO
     GPIO.setmode(GPIO.BOARD)
 
-
+import time
 import serial
 
 class RadioResponseBad(Exception): pass
@@ -35,7 +35,9 @@ class Radio:
                 GPIO.setup(aux_pin, GPIO.IN)
                 self.aux_pin = aux_pin
 
-            except ValueError:
+            except ValueError as e:
+                print(e)
+                time.sleep(1)
                 continue
 
             break

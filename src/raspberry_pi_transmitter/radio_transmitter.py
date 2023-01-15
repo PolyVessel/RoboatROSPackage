@@ -6,7 +6,7 @@ from time import sleep
 from radio import Radio
 from Packet import Packet
 def main():
-    radio = Radio('/dev/serial0', 17, 27, 22)
+    radio = Radio('/dev/serial0', 1, 2, 3)
     while True:
         p = Packet(5000000, b'It was the best of times, it was the worst of times')
         radio.send(p.get_bytes())
