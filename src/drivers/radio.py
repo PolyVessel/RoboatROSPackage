@@ -1,7 +1,10 @@
 try:
+    #board is beaglebone
     import Adafruit_BBIO.GPIO as GPIO
 except ImportError:
+    #board is pi
     import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BOARD)
 
 
 import serial
