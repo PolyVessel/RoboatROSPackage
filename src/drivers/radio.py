@@ -1,6 +1,10 @@
-import Adafruit_BBIO.GPIO as GPIO
+try:
+    import Adafruit_BBIO.GPIO as GPIO
+except ImportError:
+    import RPi.GPIO as GPIO
+
+
 import serial
-import rospy
 
 class RadioResponseBad(Exception): pass
 
@@ -16,7 +20,7 @@ class Radio:
 
         while True:
             num += 1
-            rospy.loginfo(f"Lora Radio GPIO init try #{num}")
+            print(f"Lora Radio GPIO init try #{num}")
            
             try:
                 GPIO.setup(m0_pin, GPIO.OUT)
@@ -34,7 +38,7 @@ class Radio:
             break
 
         
-        rospy.loginfo(f"Sucessfully initialized all GPIO pins for radio!")
+        print(f"Sucessfully initialized all GPIO pins for radio!")
         
     def __del__(self):
         """Closes serial port when done"""
@@ -102,7 +106,7 @@ class Radio:
         if len(radio_resp) != 4:
             raise RadioResponseBad(f"Did not return correct data length! Response: {radio_resp}")
 
-        rospy.loginfo(f"Radio Ping response {radio_resp} with length {len(radio_resp)}")
+        print(f"Radio Ping response {radio_resp} with length {len(radio_resp)}")
 
         # Asserts that radio is a 433MHz model and 
         # receieved correct amount of data
