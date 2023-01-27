@@ -9,6 +9,7 @@ class Rotor:
 
     def __init__(self, channel: int):
         self.channel = channel
+        self.init()
 
     def init(self):
         import rcpy.servo as servo
@@ -32,4 +33,6 @@ class Rotor:
     def off(self):
         self.clock.stop()
         self.servo.disable()
-
+    
+    def __del__(self):
+        self.off()
