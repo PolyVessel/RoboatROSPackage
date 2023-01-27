@@ -42,11 +42,14 @@ if __name__ == '__main__':
             key = kc.getKey()
             if key == 'e':
                 kc.set_e_stop(False)
+                print("E-Stop Disabled!")
             elif key == ' ':
                 kc.set_e_stop(True)
+                print("E-Stop Enabled!")
             elif key.isnumeric():
                 number = int(key)
                 kc.set_thrust(number * 5)
+                print(f"Thrust set to {number * 5}")
 
         
         # Shutdown
