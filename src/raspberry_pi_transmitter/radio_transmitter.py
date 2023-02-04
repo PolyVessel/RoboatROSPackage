@@ -9,9 +9,9 @@ def main():
     radio = Radio('/dev/ttyAMA0', 7, 11, 12)
     i = 1
     while True:
-        print(i)
         p = Packet(i, b'It was the best of times, it was the worst of times')
         radio.transmit(p.get_bytes())
+        print(i)
         sleep(1)
 
 
