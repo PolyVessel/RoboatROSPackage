@@ -19,6 +19,7 @@ def comms_node():
         sys.exit("Self test failed")
 
     depacketizer = Depacketizer()
+    rospy.loginfo("Radio Initialized, ready to listen")
     while not rospy.is_shutdown():
         depacketizer.write(radio.receive())
         valid_packets = depacketizer.read_packets_from_buffer()
