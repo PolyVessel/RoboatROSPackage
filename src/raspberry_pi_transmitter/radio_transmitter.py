@@ -12,6 +12,7 @@ def main():
         p = Packet(i, b'It was the best of times, it was the worst of times')
         radio.transmit(p.get_bytes())
         sleep(1)
+        print(i)
 
 
 if __name__ == "__main__":
