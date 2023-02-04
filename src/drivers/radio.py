@@ -136,7 +136,7 @@ class Radio:
             pass # Block until Aux is 1
     
     def transmit(self, data: bytes):
-        if len(bytes) > 512:
+        if len(data) > 512:
             raise ValueError("Data too long to transmit!")
         self._wake_up_mode()
         buf = bytearray('b\xff' * 2)
