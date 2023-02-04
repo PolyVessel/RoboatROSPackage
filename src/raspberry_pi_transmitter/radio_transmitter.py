@@ -6,6 +6,12 @@ from time import sleep
 from radio import Radio
 from Packet import Packet
 def main():
+    if not radio.ping_radio():
+        print("Radio self-test failed!")
+        return
+    else:
+        print("Radio self-test passed!")
+
     radio = Radio('/dev/ttyAMA0', 7, 11, 12)
     i = 1
     while True:
