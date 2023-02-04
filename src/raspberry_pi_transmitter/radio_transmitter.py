@@ -10,7 +10,7 @@ def main():
     i = 1
     while True:
         p = Packet(i, b'It was the best of times, it was the worst of times')
-        radio.send(p.get_bytes())
+        radio.transmit(p.get_bytes())
         sleep(1)
 
 
