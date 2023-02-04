@@ -17,7 +17,7 @@ class Radio:
 
     def __init__(self, serial_port, m0_pin, m1_pin, aux_pin):
         # Connect to Radio Via UART
-        self.serial_port = serial.Serial(serial_port, baudrate=9600, timeout=3)
+        self.serial_port = serial.Serial(serial_port, baudrate=9600, timeout=3, write_timeout=1)
         
         num = 0
 
