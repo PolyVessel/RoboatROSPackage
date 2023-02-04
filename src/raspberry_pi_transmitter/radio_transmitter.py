@@ -1,6 +1,6 @@
 import sys
 print(sys.path)
-sys.path.append('/home/roboatpi/code/RobatROSPackage/src/drivers')
+sys.path.append('/home/pi/code/RobatROSPackage/src/drivers')
 
 from time import sleep
 from radio import Radio
