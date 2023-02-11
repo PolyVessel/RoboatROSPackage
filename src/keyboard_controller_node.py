@@ -40,13 +40,15 @@ if __name__ == '__main__':
         kc = KeyboardController()
         
         print("Keyboard Controller Enabled!\n--------------------------------\n\n")
-        print("e = turn off e_stop\n<Space> = Turn on E_stop\n1-10 = Speed of rotor")
+        print("q = Quit\ne = turn off e_stop\n<Space> = Turn on E_stop\n1-10 = Speed of rotor")
 
         while not rospy.is_shutdown():
             key = kc.getKey()
             if key == 'e':
                 kc.set_e_stop(False)
                 print("E-Stop Disabled!")
+            elif key == 'q':
+                break
             elif key == ' ':
                 kc.set_e_stop(True)
                 print("E-Stop Enabled!")
@@ -54,6 +56,7 @@ if __name__ == '__main__':
                 number = int(key)
                 kc.set_thrust(number * 0.1)
                 print(f"Thrust set to {number * 0.1}")
+            
 
         
         # Shutdown
