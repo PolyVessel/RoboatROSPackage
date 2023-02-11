@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 
-from drivers.radio import Radio, RadioResponseBad
-from drivers.Depacketizer import Depacketizer
-from drivers.Packet import Packet
+sys.path.append('/home/beagle/catkin_ws/src/roboat_pkg/src/drivers')
+
+from radio import Radio, RadioResponseBad
+
+from Depacketizer import Depacketizer
+from Packet import Packet
 import rospy
 from std_msgs.msg import Bool
 from roboat_pkg.msg import telemetry as telemetry_msg
