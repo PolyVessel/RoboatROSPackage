@@ -15,13 +15,11 @@ def comms_node():
     e_stop_pub = rospy.Publisher('e_stop', Bool, queue_size=1)
         
     rate = rospy.Rate(poll_rate)
-    if not test_radio(radio, e_stop_pub):
-        sys.exixxt("Self test failed")
 
     depacketizer = Depacketizer()
     rospy.loginfo("Radio Initialized, ready to listen")
     while not rospy.is_shutdown():
-        radio.transmit(Packet(0, "HOOOOOOOOO").get_bytes())
+        ##radio.transmit(Packet(0, "HOOOOOOOOO").get_bytes())
         depacketizer.write(radio.receive())
         valid_packets = depacketizer.read_packets_from_buffer()
         for packet in valid_packets:

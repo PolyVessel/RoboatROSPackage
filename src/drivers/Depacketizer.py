@@ -1,5 +1,5 @@
-import collections
-from drivers.Packet import OVERHEAD, MAX_PAYLOAD, PacketizerException, Packet
+import collections, hashlib
+from Packet import OVERHEAD, MAX_PAYLOAD, PacketizerException, Packet
 BUFFER_LEN = 2048
 class Depacketizer:
     def __init__(self):
@@ -7,8 +7,9 @@ class Depacketizer:
     
 
     # each time we read new bytes from the serial port, we call this function.
-    def write(self, bytes):
-        self.buffer.extend(bytes)
+    def write(self, bts):
+        self.buffer.extend(bts)
+        self.buffer = bytes(self.buffer)
     
     # each time time the coms system checks for new packets, it calls this function.
     def read_packets_from_buffer(self):
@@ -23,9 +24,10 @@ class Depacketizer:
             # in this case, there is still a chance we have a good packet, but we don't have enough bytes to check
             # therefore we return no packets, but leave the buffer as is.
             return []
-        if self.buffer[test_index + 1] != b'\x69':
+        val = self.buffer[test_index + 1]
+        if self.buffer[test_index + 1] != b'\x69'[0]:
             # if the next byte is not 0x69, we know that this is not a hit, so we remove the first bytes and try again.
-            self.buffer.pop(test_index)
+            self.buffer = self.buffer[test_index + 1:]
             # however, we still need to check if there are other packets in the buffer.
             return self.read_packets_from_buffer()
         # if we get here, we think that we have a packet starting at test_index.
@@ -78,3 +80,13 @@ class Depacketizer:
             return 0
         return OVERHEAD + payload_length
         
+
+if __name__ == "__main__":
+    print("Testing Depacketizer")
+    packet = Packet(69, b"THIS IS A MESSAGE I'D LIKE TO SEND")
+    print(packet.get_bytes())
+    print()
+    depacketizer = Depacketizer()
+    depacketizer.write(packet.get_bytes())
+    p = depacketizer.read_packets_from_buffer()[0]
+    print(p)

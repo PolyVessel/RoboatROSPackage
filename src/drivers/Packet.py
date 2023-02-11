@@ -13,6 +13,7 @@ class PacketizerException(Exception):
 
 class Packet:
     def __init__(self, packet_id : int, payload : bytes):
+        
         self.packet_id = packet_id
         self.payload = payload
     
@@ -30,6 +31,9 @@ class Packet:
 
         self.bytes = b"".join(b)
         return self.bytes
+    
+    def __str__(self):
+        return "Packet ID: " + str(self.packet_id) + " Payload: " + str(self.payload)
         
 
 # Returns a list of packets
