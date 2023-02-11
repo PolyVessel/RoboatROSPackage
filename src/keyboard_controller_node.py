@@ -21,7 +21,7 @@ class KeyboardController:
 
 
     def getKey(self):
-        key = input("> ")
+        return input("> ")
     def set_e_stop(self, isEStopEnabled):
         self.e_stop_publisher.publish(Bool(isEStopEnabled))
 
