@@ -58,4 +58,5 @@ if __name__ == '__main__':
         
     except rospy.ROSInterruptException:
         rospy.loginfo("Stopping keyboard_publisher")
+    finally:
         kc.set_e_stop(True)
