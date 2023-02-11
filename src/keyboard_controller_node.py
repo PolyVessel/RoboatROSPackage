@@ -2,8 +2,6 @@
 
 import rospy
 from std_msgs.msg import Float32, Bool
-import tty, termios
-import sys, select, os
 class KeyboardController:
 
     def __init__(self):
