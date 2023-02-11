@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import sys
 sys.path.append('/home/beagle/catkin_ws/src/roboat_pkg/src/drivers')
 
 from radio import Radio, RadioResponseBad
@@ -9,7 +9,6 @@ from Packet import Packet
 import rospy
 from std_msgs.msg import Bool
 from roboat_pkg.msg import telemetry as telemetry_msg
-import sys
 
 def comms_node():
     rospy.init_node('lora_comms')
