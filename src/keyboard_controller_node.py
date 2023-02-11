@@ -48,8 +48,8 @@ if __name__ == '__main__':
                 print("E-Stop Enabled!")
             elif key.isnumeric():
                 number = int(key)
-                kc.set_thrust(number * 5)
-                print(f"Thrust set to {number * 5}")
+                kc.set_thrust(number * 0.1)
+                print(f"Thrust set to {number * 0.1}")
 
         
         # Shutdown
