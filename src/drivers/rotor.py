@@ -1,4 +1,5 @@
 import typing
+import time
 
 class IMUException(Exception):
     pass
@@ -12,27 +13,35 @@ class Rotor:
         self.init()
 
     def init(self):
+        from rcpy.servo import ESC
         import rcpy.servo as servo
-        import rcpy.clock as clock
         import rcpy
 
-        """Initializes the IMU. Is usually done automatically from poll_sensor()"""
+        # Disable the power rail on the servos channels
+        # for safety
+        servo.disable()
+
         rcpy.set_state(rcpy.RUNNING)
-        self.servo = servo.Servo(self.channel)
-        self.clock = clock.Clock(self.servo, 0.02)
+        self.esc = ESC(self.channel)
+
+        # Start the Clock for the escs
+        self.esc.start(0.02)
+
+        # Arm ESC
+        self.set(-0.1)
         
-        self.initialized = True
+        # Blocking call, but in the future should probably use coroutines
+        time.sleep(1)
+
+        self.esc.set(0)
 
 
     def set(self, duty: float):
-        self.servo.enable()
-        self.clock.start()
-
-        self.servo.set(duty)
+        self.esc.start(0.02)
+        self.esc.set(duty)
 
     def off(self):
-        self.clock.stop()
-        self.servo.disable()
+        self.esc.set(0)
     
     def __del__(self):
         self.off()
