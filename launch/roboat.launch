@@ -8,6 +8,6 @@
   <rosparam command="load" file="$(find roboat_pkg)/config/recorder.yaml" />
   <node name="recorder" pkg="roboat_pkg" type="recorder_node.py" />
 
-  <rosparam command="load" file="$(find roboat_pkg)/config/thrust.yaml" />
-  <node name="thrust" pkg="roboat_pkg" type="thrust_node.py" />
+  <rosparam command="load" file="$(find roboat_pkg)/config/thrust.yaml"/>
+  <node name="thrust" pkg="roboat_pkg" type="thrust_node.py" launch-prefix="sudo -E"  />
 </launch>
