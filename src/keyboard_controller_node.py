@@ -21,13 +21,7 @@ class KeyboardController:
 
 
     def getKey(self):
-        tty.setraw(sys.stdin.fileno())
-        rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
-        if rlist:
-            key = sys.stdin.read(1)
-        else:
-            key = ''
-        return key
+        key = input("> ")
     def set_e_stop(self, isEStopEnabled):
         self.e_stop_publisher.publish(Bool(isEStopEnabled))
 
