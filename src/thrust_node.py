@@ -8,12 +8,19 @@ class Thrust:
 
     def __init__(self):
         rospy.init_node('thrust')
+        
+        rospy.loginfo("Thrust Initializing...")
 
         rotor_channel1 = rospy.get_param("thrust/rotor_channel1")
         rotor_channel2 = rospy.get_param("thrust/rotor_channel2")
 
+        rospy.loginfo("Got Parameters!")
+
         self.rotor1 = Rotor(rotor_channel1)
         self.rotor2 = Rotor(rotor_channel2)
+
+        
+        rospy.loginfo("Initialized Rotors!")
         
         rospy.Subscriber("thrust_vec_out", Float32, self.rotor_power_hander)
         rospy.Subscriber("e_stop", Bool, self.e_stop_hander)
