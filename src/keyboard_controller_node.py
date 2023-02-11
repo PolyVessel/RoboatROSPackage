@@ -27,6 +27,7 @@ class KeyboardController:
             key = sys.stdin.read(1)
         else:
             key = ''
+        return key
     def set_e_stop(self, isEStopEnabled):
         self.e_stop_publisher.publish(Bool(isEStopEnabled))
 
