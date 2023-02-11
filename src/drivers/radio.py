@@ -138,7 +138,6 @@ class Radio:
     def transmit(self, data: bytes):
         if len(data) > 512:
             raise ValueError("Data too long to transmit!")
-        self._wake_up_mode()
         buf = bytearray(b'\xff' * 2)
         buf.extend(data)
         self.serial_port.write(buf)
