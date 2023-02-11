@@ -14,7 +14,7 @@ class KeyboardController:
         rospy.init_node("keyboard_controller", anonymous=True)
 
         # Create a publisher to the keypress topic
-        self.thrust_publisher = rospy.Publisher('/thrust', Float32, queue_size=1)
+        self.thrust_publisher = rospy.Publisher('/thrust_vec_out', Float32, queue_size=1)
         self.e_stop_publisher = rospy.Publisher('/e_stop', Bool, queue_size=1)
 
         rate = rospy.Rate(10)
