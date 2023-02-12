@@ -10,4 +10,9 @@
 
   <rosparam command="load" file="$(find roboat_pkg)/config/thrust.yaml"/>
   <node name="thrust" pkg="roboat_pkg" type="thrust_node.py" launch-prefix="sudo"  />
+
+  <node name="commander" pkg="roboat_pkg" type="commander_node.py" />
+
+
+  <node name="manual_control_server" pkg="roboat_pkg" type="manual_control_server.py" />
 </launch>
