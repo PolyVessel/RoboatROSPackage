@@ -11,8 +11,8 @@ class Thrust:
         
         rospy.loginfo("Thrust Initializing...")
 
-        rotor_channel1 = rospy.get_param("thrust/rotor_channel1")
-        rotor_channel2 = rospy.get_param("thrust/rotor_channel2")
+        rotor_channel1 = rospy.get_param("/thrust/rotor_channel1")
+        rotor_channel2 = rospy.get_param("/thrust/rotor_channel2")
 
         rospy.loginfo("Got Parameters!")
 
@@ -22,8 +22,8 @@ class Thrust:
         
         rospy.loginfo("Initialized Rotors!")
         
-        rospy.Subscriber("thrust_vec_out", Float32, self.rotor_power_hander)
-        rospy.Subscriber("e_stop", Bool, self.e_stop_hander)
+        rospy.Subscriber("/thrust/vec", Float32, self.rotor_power_hander)
+        rospy.Subscriber("/e_stop", Bool, self.e_stop_hander)
 
         self.e_stop = True
 

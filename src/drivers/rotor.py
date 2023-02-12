@@ -24,7 +24,8 @@ class Rotor:
         rcpy.set_state(rcpy.RUNNING)
         self.esc = ESC(self.channel)
 
-        
+        # Wait for PRU Init
+        time.sleep(1)
 
         # Start the Clock for the escs
         self.esc.start(0.02)
