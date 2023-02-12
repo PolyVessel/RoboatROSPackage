@@ -5,10 +5,10 @@ import rospy
 from std_msgs.msg import Bool
 
 def configure_radio():
-    serial_port = rospy.get_param('lora_radio/serial_port')
-    m0_pin = rospy.get_param('lora_radio/m0_pin')
-    m1_pin = rospy.get_param('lora_radio/m1_pin')
-    aux_pin = rospy.get_param('lora_radio/aux_pin')
+    serial_port = rospy.get_param('/lora_radio/serial_port')
+    m0_pin = rospy.get_param('/lora_radio/m0_pin')
+    m1_pin = rospy.get_param('/lora_radio/m1_pin')
+    aux_pin = rospy.get_param('/lora_radio/aux_pin')
 
     return Radio(serial_port, m0_pin, m1_pin, aux_pin)
 
@@ -24,7 +24,7 @@ def test_radio(radio, e_stop_pub):
 
 
 def comms_node():
-    e_stop_pub = rospy.Publisher('e_stop', Bool, queue_size=1)
+    e_stop_pub = rospy.Publisher('/e_stop', Bool, queue_size=1)
     rospy.init_node('comms')
     
     radio = configure_radio()

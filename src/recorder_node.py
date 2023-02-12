@@ -8,10 +8,10 @@ class Recorder:
     def __init__(self):
         rospy.init_node('recorder')
 
-        self.csv_encoding = rospy.get_param("recorder/csv_encoding")
-        self.gps_csv_path = rospy.get_param("recorder/gps_csv_path")
+        self.csv_encoding = rospy.get_param("/recorder/csv_encoding")
+        self.gps_csv_path = rospy.get_param("/recorder/gps_csv_path")
         
-        rospy.Subscriber("gps_info", GPSInfo, self.log_gps)
+        rospy.Subscriber("/sensor/gps", GPSInfo, self.log_gps)
 
         rospy.loginfo("Recorder Initialized!")
 
