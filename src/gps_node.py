@@ -8,10 +8,10 @@ from drivers.util import TimeoutException
 class GPSNode():
 
     def __init__(self):
-        gps_pub = rospy.Publisher('gps_info', GPSInfo, queue_size=5)
+        gps_pub = rospy.Publisher('/sensor/gps', GPSInfo, queue_size=5)
         rospy.init_node('gps')
 
-        gps_poll_rate = rospy.get_param("gps/poll_rate")
+        gps_poll_rate = rospy.get_param("/gps/poll_rate")
 
         rate = rospy.Rate(gps_poll_rate) # 0.5hz
         
@@ -33,9 +33,10 @@ class GPSNode():
             rate.sleep()
 
     def configure_gps(self):
-        serial_port = rospy.get_param('gps/serial_port')
-        timeout = rospy.get_param('gps/timeout')
-        return GPS.fromgpsconfig(serial_port, timeout)
+
+        serial_port = rospy.get_param('/gps/serial_port')
+        timeout = rospy.get_param('/gps/timeout')
+        return GPS(serial_port, timeout)
 
     def get_gps_data(self, gps):
         try:
