@@ -33,6 +33,7 @@ class GPSNode():
             rate.sleep()
 
     def configure_gps(self):
+
         serial_port = rospy.get_param('/gps/serial_port')
         timeout = rospy.get_param('/gps/timeout')
         return GPS(serial_port, timeout)
