@@ -30,6 +30,7 @@ def comms_node():
     rospy.loginfo("Radio Initialized, ready to listen")
     while not rospy.is_shutdown():
         depacketizer.write(radio.receive())
+        print(depacketizer.buffer)
         valid_packets = depacketizer.read_packets_from_buffer()
         for packet in valid_packets:
             rospy.loginfo(packet)
