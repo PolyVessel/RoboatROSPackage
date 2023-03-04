@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+message Command {
+    oneof command {
+        ModeSet mode_set = 1;
+        MotorSet motor_set = 2;
+        EStop estop = 3;
+        EStopClear estop_clear = 4;
+    }
+}
+
+enum Mode {
+    MANUAL = 0;
+    WAYPOINT = 1;
+}
+
+message ModeSet {
+    Mode mode = 1;
+}
+
+message MotorSet {
+    float port = 1;
+    float starboard = 2;
+}
+
+message EStop {}
+message EStopClear {}
