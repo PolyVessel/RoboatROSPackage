@@ -23,6 +23,7 @@ def comms_node():
     radio = configure_radio()
     poll_rate = rospy.get_param("lora_radio/poll_rate")
     e_stop_pub = rospy.Publisher('e_stop', Bool, queue_size=1)
+    command_dispatch_pub = rospy.Publisher('command_dispatch', telemetry_msg, queue_size=1)
         
     rate = rospy.Rate(poll_rate)
 
@@ -33,6 +34,7 @@ def comms_node():
         valid_packets = depacketizer.read_packets_from_buffer()
         for packet in valid_packets:
             rospy.loginfo(packet)
+            command_dispatch_pub.publish(packet)
         rate.sleep()
 
 
