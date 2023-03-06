@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-from radio import Radio, RadioResponseBad
+from drivers.radio import Radio, RadioResponseBad
 
-from Depacketizer import Depacketizer
-from Packet import Packet
+from drivers.Depacketizer import Depacketizer
+from drivers.Packet import Packet
 import rospy
 from std_msgs.msg import Bool
 from roboat_pkg.msg import telemetry as telemetry_msg
