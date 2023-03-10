@@ -14,7 +14,7 @@ class Recorder:
 
 
         self.csv_encoding = rospy.get_param("/recorder/csv_encoding")
-        self.storage_path = rospy.get_param("/recorder/gps_csv_path")
+        self.storage_path = rospy.get_param("/recorder/storage_path")
         self.period = rospy.get_param("/recorder/transmit_period")
         rospy.Subscriber("/sensor/gps", GPSInfo, self.log_gps)
         rospy.Subscriber("e_stop", Bool, self.log_estop)
@@ -30,18 +30,17 @@ class Recorder:
         rospy.spin()
 
     def log_gps(self, data):
-        with open(self.gps_csv_path,'a', newline='', encoding=self.csv_encoding) as f:
-            writer = csv.writer(f)
-            writer.writerow([data.measurementTime, data.groundSpeed, data.lon, data.lat])
-            self.telemetry_dict["GPS"]["time"] = data.measurementTime
-            self.telemetry_dict["GPS"]["ground_speed"] = data.groundSpeed
-            self.telemetry_dict["GPS"]["longitude"] = data.lon
-            self.telemetry_dict["GPS"]["latitude"] = data.lat
+        self.telemetry_dict["GPS"] = {}
+        self.telemetry_dict["GPS"]["time"] = data.measurementTime
+        self.telemetry_dict["GPS"]["ground_speed"] = data.groundSpeed
+        self.telemetry_dict["GPS"]["longitude"] = data.lon
+        self.telemetry_dict["GPS"]["latitude"] = data.lat
     
     def log_estop(self, data):
         self.telemetry_dict["E-Stop"] = data.value
     
     def log_radio(self, data):
+        self.telemetry_dict["Radio"] = {}
         self.telemetry_dict["Radio"]["missing-packets"] = self.missing_packets.copy()
         self.telemetry_dict["Radio"]["last-packet-received"] = data.last_packet_received
 
