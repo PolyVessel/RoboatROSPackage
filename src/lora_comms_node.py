@@ -71,6 +71,6 @@ class ComsNode:
 
 if __name__ == "__main__":
     try:
-        comms_node()
+        ComsNode()
     except rospy.ROSInterruptException:
         pass
