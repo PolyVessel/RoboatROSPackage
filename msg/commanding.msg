@@ -1,3 +1,3 @@
 Header header
 
-string message
+string command

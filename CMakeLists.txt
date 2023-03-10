@@ -51,7 +51,8 @@ add_message_files(
   FILES
   GPSInfo.msg
   roboat.msg
-  telemetry.msg
+  commanding.msg
+  radio_telemetry.msg
 )
 
 ## Generate services in the 'srv' folder

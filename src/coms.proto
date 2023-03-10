@@ -1,12 +1,14 @@
 syntax = "proto3";
 
-message Command {
+message Command_Envelope {
     oneof command {
         ModeSet mode_set = 1;
         MotorSet motor_set = 2;
         EStop estop = 3;
         EStopClear estop_clear = 4;
     }
+    uint64 timestamp = 5;
+    uint32 id = 6;
 }
 
 enum Mode {

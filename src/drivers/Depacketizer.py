@@ -14,8 +14,8 @@ class Depacketizer:
     # each time time the coms system checks for new packets, it calls this function.
     def read_packets_from_buffer(self):
         try:
-            test_index = self.buffer.index(b'\x69')
-            # since all packets start with 0x6969, we can find the start of the next packet by searching for 0x69.
+            test_index = self.buffer.index(b'\x83')
+            # since all packets start with 0x8383, we can find the start of the next packet by searching for 0x69.
         except ValueError:
             # if we don't find it, we can assume that the buffer is garbage and we can clear it.
             self.buffer = []
@@ -25,8 +25,8 @@ class Depacketizer:
             # therefore we return no packets, but leave the buffer as is.
             return []
         val = self.buffer[test_index + 1]
-        if self.buffer[test_index + 1] != b'\x69'[0]:
-            # if the next byte is not 0x69, we know that this is not a hit, so we remove the first bytes and try again.
+        if self.buffer[test_index + 1] != b'\x83'[0]:
+            # if the next byte is not 0x83, we know that this is not a hit, so we remove the first bytes and try again.
             self.buffer = self.buffer[test_index + 1:]
             # however, we still need to check if there are other packets in the buffer.
             return self.read_packets_from_buffer()
