@@ -39,7 +39,7 @@ class ComsNode:
                 self.last_packet_received = packet.packet_id
                 rospy.loginfo(packet)
                 command_dispatch_pub.publish(packet)
-            cylces += 1
+            cycles += 1
             if cycles % 15 == 0:
                 self.gather_telemetry()
             rate.sleep()
