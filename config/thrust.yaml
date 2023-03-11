@@ -1,3 +1,2 @@
 thrust:
-  rotor_channel1: 2
-  rotor_channel2: 3
+  rotor_serial_port: /dev/ttyUSB0
