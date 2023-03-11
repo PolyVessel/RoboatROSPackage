@@ -13,6 +13,7 @@ class Rotor:
         self.serial_port = serial_port
         self.serial = serial.Serial(serial_port, baudrate=9600, timeout=3)
 
+        self.off()
 
     '''
     duty: 0 - 180
