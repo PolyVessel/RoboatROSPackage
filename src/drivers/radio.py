@@ -1,23 +1,49 @@
-import Adafruit_BBIO.GPIO as GPIO
+try:
+    #board is beaglebone
+    import Adafruit_BBIO.GPIO as GPIO
+except ImportError:
+    #board is pi
+    import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BOARD)
+
+import time
 import serial
 
 class RadioResponseBad(Exception): pass
 
+TRANSMIT_CH = 0
+
 class Radio:
 
-    def __init__(cls, serial_port, m0_pin, m1_pin, aux_pin):
-
+    def __init__(self, serial_port, m0_pin, m1_pin, aux_pin):
         # Connect to Radio Via UART
-        cls.serial_port = serial.Serial(serial_port, baudrate=9600, timeout=3)
+        self.serial_port = serial.Serial(serial_port, baudrate=9600, timeout=3, write_timeout=3)
         
-        GPIO.setup(m0_pin, GPIO.OUT)
-        cls.m0_pin = m0_pin
+        num = 0
 
-        GPIO.setup(m1_pin, GPIO.OUT)
-        cls.m1_pin = m1_pin
+        while True:
+            num += 1
+            print(f"Lora Radio GPIO init try #{num}")
+           
+            try:
+                GPIO.setup(m0_pin, GPIO.OUT)
+                self.m0_pin = m0_pin
 
-        GPIO.setup(aux_pin, GPIO.IN)
-        cls.aux_pin = aux_pin
+                GPIO.setup(m1_pin, GPIO.OUT)
+                self.m1_pin = m1_pin
+
+                GPIO.setup(aux_pin, GPIO.IN)
+                self.aux_pin = aux_pin
+
+            except ValueError as e:
+                print(e)
+                time.sleep(1)
+                continue
+
+            break
+
+        
+        print(f"Sucessfully initialized all GPIO pins for radio!")
         
     def __del__(self):
         """Closes serial port when done"""
@@ -69,9 +95,23 @@ class Radio:
             ('\x00','\x00') - Indicates error
             Otherwise, first value is Version number and 
             second value is other module features.
+
+        Can raise TimeoutException()
         """
+
+        # Requires Sleep mode in order to ping radio
+        # (For now don't deal with changing modes)
+        # with time_limit(3):
+        #     self._sleep_mode()
+
+
         self.serial_port.write(b'\xC3\xC3\xC3')
         radio_resp = self.serial_port.read(4)
+
+        if len(radio_resp) != 4:
+            raise RadioResponseBad(f"Did not return correct data length! Response: {radio_resp}")
+
+        print(f"Radio Ping response {radio_resp} with length {len(radio_resp)}")
 
         # Asserts that radio is a 433MHz model and 
         # receieved correct amount of data
@@ -85,11 +125,22 @@ class Radio:
         if (not len(radio_resp) == 4):
             raise RadioResponseBad("Radio Respone is not 4 bytes long! Resp: " + str(radio_resp))
         
-        return (radio_resp[2],radio_resp[3]) 
-        
-
+        return (radio_resp[2],radio_resp[3])
     
+    def receive(self):
+        serial_resp = self.serial_port.read(self.serial_port.in_waiting)
+        return serial_resp
 
     def _block_until_module_free(self):
         while not GPIO.input(self.aux_pin):
             pass # Block until Aux is 1
+    
+    def transmit(self, data: bytes):
+        if len(data) > 512:
+            raise ValueError("Data too long to transmit!")
+        buf = bytearray(b'\xff' * 2)
+        buf.extend(data)
+        self.serial_port.write(buf)
+
+    def bytes_waiting():
+        return serial.inWaiting()
