@@ -2,12 +2,12 @@
   <rosparam command="load" file="$(find roboat_pkg)/config/lora_radio.yaml" />
   <node name="lora_comms" pkg="roboat_pkg" type="lora_comms_node.py" />
 
-  <rosparam command="load" file="$(find roboat_pkg)/config/gps.yaml" />
-  <node name="gps" pkg="roboat_pkg" type="gps_node.py" />
+  <!--rosparam command="load" file="$(find roboat_pkg)/config/gps.yaml" />
+  <node name="gps" pkg="roboat_pkg" type="gps_node.py" /-->
 
   <rosparam command="load" file="$(find roboat_pkg)/config/recorder.yaml" />
   <node name="recorder" pkg="roboat_pkg" type="recorder_node.py" />
 
-  <rosparam command="load" file="$(find roboat_pkg)/config/thrust.yaml"/>
-  <node name="thrust" pkg="roboat_pkg" type="thrust_node.py" launch-prefix="sudo"  />
+  <!--rosparam command="load" file="$(find roboat_pkg)/config/thrust.yaml"/>
+  <node name="thrust" pkg="roboat_pkg" type="thrust_node.py" launch-prefix="sudo"  /-->
 </launch>

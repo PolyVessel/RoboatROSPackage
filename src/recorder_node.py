@@ -18,7 +18,7 @@ class Recorder:
         self.period = rospy.get_param("/recorder/transmit_period")
         rospy.Subscriber("/sensor/gps", GPSInfo, self.log_gps)
         rospy.Subscriber("e_stop", Bool, self.log_estop)
-        rospy.Subscriber("radio_telemetry", radio_telemetry, self.log_depth)
+        rospy.Subscriber("radio_telemetry", radio_telemetry, self.log_radio)
         self.tansmitter = rospy.Publisher("radio_transmit", String, queue_size=5)
 
         rospy.loginfo("Recorder Initialized!")

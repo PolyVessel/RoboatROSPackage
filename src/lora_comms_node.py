@@ -2,7 +2,7 @@
 from drivers.radio import Radio, RadioResponseBad
 
 from drivers.Depacketizer import Depacketizer
-from drivers.Packet import Packet
+from drivers.Packet import Packet, multi_packetizer
 import rospy
 from std_msgs.msg import Bool, String
 from roboat_pkg.msg import commanding, radio_telemetry
@@ -18,12 +18,11 @@ class ComsNode:
         self.missing_packets = []
         self.radio = self.configure_radio()
 
-        poll_rate = rospy.get_param("lora_radio/poll_rate")
         command_dispatch_pub = rospy.Publisher('command_dispatch', commanding, queue_size=1)
-        self.elemetry_pub = rospy.Publisher('telemetry', radio_telemetry, queue_size=1)
+        self.telemetry_pub = rospy.Publisher('telemetry', radio_telemetry, queue_size=1)
         rospy.Subscriber("radio_transmit", String, self.transmit_callback)
 
-        
+        poll_rate = rospy.get_param("lora_radio/poll_rate")
         rate = rospy.Rate(poll_rate)
 
         depacketizer = Depacketizer()
@@ -53,14 +52,15 @@ class ComsNode:
         return Radio(serial_port, m0_pin, m1_pin, aux_pin)
 
     def transmit_callback(self,data):
-        packets = Packet.multi_packetizer(data, last_packet)
-        last_packet = packets[-1].packet_id
+        data = data.value
+        packets = multi_packetizer(bytes(data), self.last_packet_sent + 1)
+        self.last_packet_sent = packets[-1].packet_id
         for packet in packets:
             self.radio.transmit(packet)
     
     def gather_telemetry(self):
         telemetry = radio_telemetry()
-        telemetry.last_packet_received = self.last_packet_received
+        telemetry.last_packet_rxd = self.last_packet_received
         telemetry.missing_packets = tuple(self.missing_packets)
         self.telemetry_pub.publish(telemetry)
         self.missing_packets = []
