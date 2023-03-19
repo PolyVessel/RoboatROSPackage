@@ -18,7 +18,7 @@ class ComsNode:
         self.missing_packets = []
         self.radio = self.configure_radio()
 
-        command_dispatch_pub = rospy.Publisher('command_dispatch', commanding, queue_size=1)
+        radio_in = rospy.Publisher('radio_in', commanding, queue_size=1)
         self.telemetry_pub = rospy.Publisher('telemetry', radio_telemetry, queue_size=1)
         rospy.Subscriber("radio_transmit", String, self.transmit_callback)
 
@@ -30,14 +30,9 @@ class ComsNode:
         cycles = 0
         while not rospy.is_shutdown():
             depacketizer.write(self.radio.receive())
-            valid_packets = depacketizer.read_packets_from_buffer()
-            for packet in valid_packets:
-                if packet.packet_id != self.last_packet_received + 1:
-                    self.missing_packets.append(packet.packet_id + 1)
-                    rospy.logwarn("Packet loss detected, last packet received: " + str(self.last_packet_received) + " current packet: " + str(packet.packet_id))
-                self.last_packet_received = packet.packet_id
-                rospy.loginfo(packet)
-                command_dispatch_pub.publish(packet)
+            messages = depacketizer.read_messages()
+            for message in messages:
+                radio_in.publish(message)
             cycles += 1
             if cycles % 15 == 0:
                 self.gather_telemetry()

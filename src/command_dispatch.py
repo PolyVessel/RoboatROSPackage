@@ -6,7 +6,7 @@ publishers = {}
 
 def init():
     rospy.init_node('command_dispatch', anonymous=True)
-    rospy.Subscriber("command_dispatch", String, dispatch)
+    rospy.Subscriber("radio_in", String, dispatch)
     publishers["e_stop"] = rospy.Publisher("e_stop", Bool)
     publishers["motor_set"] = rospy.Publisher("motor_set", String)
 
