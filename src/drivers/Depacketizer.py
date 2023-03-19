@@ -8,7 +8,7 @@ class Depacketizer:
 
 
     # each time we read new bytes from the serial port, we call this function.
-    def write(self, bts):
+    def write(self, bts: bytes):
         self.buffer += bts
         self.packets = []
     
@@ -23,7 +23,7 @@ class Depacketizer:
             output.append(packet.payload)
         return b"".join(output)
 
-    def read_messages(self, missing_packets_callback):
+    def read_messages(self, missing_packets_callback: callable([int])) -> list[bytes]:
         self.packets.extend(self.read_packets_from_buffer())
         self.packets.sort(key=lambda x: x.packet_id)
         if len(self.packets) == 0:
@@ -57,7 +57,7 @@ class Depacketizer:
     def read_packets_from_buffer(self):
         try:
             test_index = self.buffer.index(b'\x83')
-            # since all packets start with 0x8383, we can find the start of the next packet by searching for 0x69.
+            # since all packets start with 0x8383, we can find the start of the next packet by searching for 0x83.
         except ValueError:
             # if we don't find it, we can assume that the buffer is garbage and we can clear it.
             self.buffer = []
@@ -66,7 +66,6 @@ class Depacketizer:
             # in this case, there is still a chance we have a good packet, but we don't have enough bytes to check
             # therefore we return no packets, but leave the buffer as is.
             return []
-        val = self.buffer[test_index + 1]
         if self.buffer[test_index + 1] != b'\x83'[0]:
             # if the next byte is not 0x83, we know that this is not a hit, so we remove the first bytes and try again.
             self.buffer = self.buffer[test_index + 1:]
