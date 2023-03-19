@@ -15,7 +15,7 @@ class ComsNode:
         rospy.init_node('lora_comms')
         self.last_packet_sent = 0
         self.last_packet_received = 0
-        self.missing_packets = []
+        self.missing_message = []
         self.radio = self.configure_radio()
 
         radio_in = rospy.Publisher('radio_in', commanding, queue_size=1)
@@ -30,13 +30,16 @@ class ComsNode:
         cycles = 0
         while not rospy.is_shutdown():
             depacketizer.write(self.radio.receive())
-            messages = depacketizer.read_messages()
+            messages = depacketizer.read_messages(self.missing_message_cb)
             for message in messages:
                 radio_in.publish(message)
             cycles += 1
             if cycles % 15 == 0:
                 self.gather_telemetry()
             rate.sleep()
+
+    def missing_message_cb(self, missing_message):
+        self.missing_message.append(missing_message)
 
     def configure_radio(self):
         serial_port = rospy.get_param('/lora_radio/serial_port')

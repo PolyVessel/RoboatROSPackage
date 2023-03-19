@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import proto.coms_pb2 as protos
 import rospy
 from std_msgs.msg import String, Bool
@@ -11,9 +13,9 @@ def init():
     publishers["motor_set"] = rospy.Publisher("motor_set", String)
 
 def dispatch(command_string):
-    command_envelope = protos.Command.ParseFromString(command_string.data)
+    command_envelope = protos.Command_Envelope.ParseFromString(command_string.data)
     handler = unknown_command
-    match command_envelope.command:
+    match type(command_envelope.command):
         case protos.Command.E_STOP:
             handler = e_stop_handler
         case protos.Command.E_STOP_RELEASE:

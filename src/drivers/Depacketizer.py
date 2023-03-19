@@ -1,5 +1,5 @@
 import collections, hashlib
-from Packet import OVERHEAD, MAX_PAYLOAD, PacketizerException, Packet, multi_packetizer
+from drivers.Packet import OVERHEAD, MAX_PAYLOAD, PacketizerException, Packet, multi_packetizer
 BUFFER_LEN = 2048
 class Depacketizer:
     def __init__(self):
@@ -23,7 +23,7 @@ class Depacketizer:
             output.append(packet.payload)
         return b"".join(output)
 
-    def read_messages(self, missing_packets_callback: callable([int])) -> list[bytes]:
+    def read_messages(self, missing_packets_callback: callable(int)):
         self.packets.extend(self.read_packets_from_buffer())
         self.packets.sort(key=lambda x: x.packet_id)
         if len(self.packets) == 0:
