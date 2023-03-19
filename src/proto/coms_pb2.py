@@ -13,17 +13,23 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ncoms.proto\"\x1e\n\x07ModeSet\x12\x13\n\x04mode\x18\x01 \x01(\x0e\x32\x05.Mode\"+\n\x08MotorSet\x12\x0c\n\x04port\x18\x01 \x01(\x02\x12\x11\n\tstarboard\x18\x02 \x01(\x02* \n\x04Mode\x12\n\n\x06MANUAL\x10\x00\x12\x0c\n\x08WAYPOINT\x10\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ncoms.proto\"\xb7\x01\n\x10\x43ommand_Envelope\x12\x1c\n\x08mode_set\x18\x01 \x01(\x0b\x32\x08.ModeSetH\x00\x12\x1e\n\tmotor_set\x18\x02 \x01(\x0b\x32\t.MotorSetH\x00\x12\x17\n\x05\x65stop\x18\x03 \x01(\x0b\x32\x06.EStopH\x00\x12\"\n\x0b\x65stop_clear\x18\x04 \x01(\x0b\x32\x0b.EStopClearH\x00\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x12\n\n\x02id\x18\x06 \x01(\rB\t\n\x07\x63ommand\"\x1e\n\x07ModeSet\x12\x13\n\x04mode\x18\x01 \x01(\x0e\x32\x05.Mode\"+\n\x08MotorSet\x12\x0c\n\x04port\x18\x01 \x01(\x02\x12\x11\n\tstarboard\x18\x02 \x01(\x02\"\x07\n\x05\x45Stop\"\x0c\n\nEStopClear* \n\x04Mode\x12\n\n\x06MANUAL\x10\x00\x12\x0c\n\x08WAYPOINT\x10\x01\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'coms_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _MODE._serialized_start=91
-  _MODE._serialized_end=123
-  _MODESET._serialized_start=14
-  _MODESET._serialized_end=44
-  _MOTORSET._serialized_start=46
-  _MOTORSET._serialized_end=89
+  _MODE._serialized_start=300
+  _MODE._serialized_end=332
+  _COMMAND_ENVELOPE._serialized_start=15
+  _COMMAND_ENVELOPE._serialized_end=198
+  _MODESET._serialized_start=200
+  _MODESET._serialized_end=230
+  _MOTORSET._serialized_start=232
+  _MOTORSET._serialized_end=275
+  _ESTOP._serialized_start=277
+  _ESTOP._serialized_end=284
+  _ESTOPCLEAR._serialized_start=286
+  _ESTOPCLEAR._serialized_end=298
 # @@protoc_insertion_point(module_scope)
