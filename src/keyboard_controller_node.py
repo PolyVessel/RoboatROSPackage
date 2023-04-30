@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import rospy
-from std_msgs.msg import Bool, Thrust
+from std_msgs.msg import Bool
+from roboat_pkg.msg import Thrust
 class KeyboardController:
 
     def __init__(self):

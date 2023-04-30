@@ -1,8 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 import rospy
-from roboat_pkg.msg import Thrust, Bool
-from drivers import Rotor 
+from roboat_pkg.msg import Thrust as Thrust_msg
+from std_msgs.msg import Bool
+from drivers import Rotor
 
 class Thrust:
 
@@ -20,7 +21,7 @@ class Thrust:
         
         rospy.loginfo("Initialized Rotors!")
         
-        rospy.Subscriber("/thrust/vec", Thrust, self.rotor_power_hander)
+        rospy.Subscriber("/thrust/vec", Thrust_msg, self.rotor_power_hander)
         rospy.Subscriber("/e_stop", Bool, self.e_stop_hander)
 
         self.e_stop = True
@@ -33,7 +34,7 @@ class Thrust:
         if self.e_stop is True:
             self.rotor.off()
 
-        self.rotor.set(data.dutyLeft, data.DutyRight)
+        self.rotor.set(int(data.dutyLeft), int(data.dutyRight))
 
     def e_stop_hander(self, data):
         if data.data is True:
