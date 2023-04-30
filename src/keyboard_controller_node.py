@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import rospy
-from std_msgs.msg import Float32, Bool
+from std_msgs.msg import Bool
+from roboat_pkg.msg import Thrust
 class KeyboardController:
 
     def __init__(self):
@@ -12,7 +13,7 @@ class KeyboardController:
         rospy.init_node("keyboard_controller", anonymous=True)
 
         # Create a publisher to the keypress topic
-        self.thrust_publisher = rospy.Publisher('/thrust/vec', Float32, queue_size=1)
+        self.thrust_publisher = rospy.Publisher('/thrust/vec', Thrust, queue_size=1)
         self.e_stop_publisher = rospy.Publisher('/e_stop', Bool, queue_size=1)
 
         rate = rospy.Rate(10)
@@ -23,8 +24,12 @@ class KeyboardController:
     def set_e_stop(self, isEStopEnabled):
         self.e_stop_publisher.publish(Bool(isEStopEnabled))
 
-    def set_thrust(self, thrust_val):
-        self.thrust_publisher.publish(Float32(thrust_val))
+    def set_thrust(self, left, right):
+        t = Thrust()
+        t.dutyLeft = left
+        t.dutyRight = right
+
+        self.thrust_publisher.publish(t)
 
 
 if __name__ == '__main__':
@@ -44,10 +49,16 @@ if __name__ == '__main__':
             elif key == ' ':
                 kc.set_e_stop(True)
                 print("E-Stop Enabled!")
-            elif key.isnumeric():
-                number = int(key)
-                kc.set_thrust(number * 0.1)
-                print(f"Thrust set to {number * 0.1}")
+            elif any(char.isdigit() for char in key):
+                try:
+                    split = key.split(" ")
+                    left = int(split[0])
+                    right = int(split[1])
+                    kc.set_thrust(left, right)
+                    print(f"Thrust set to {left}/180 and {right}/180")
+                except:
+                    print("Invalid input")
+
             
 
         
